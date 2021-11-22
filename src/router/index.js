@@ -210,14 +210,23 @@ export const router = new Router({
 router.beforeEach((to, from, next) => {
   const item = getItem(process.env.VUE_APP_NAME);
   if (to.meta.isAuthed) {
-    if (!item || (item && item.user.auth_status !== AUTH_STATUS.AUTHED)) {
+    if (
+      !item ||
+      (item && item.user && item.user.auth_status !== AUTH_STATUS.AUTHED)
+    ) {
       next("/login");
     } else {
       next();
     }
   } else if (to.meta.isAdmin) {
     if (
+      !item ||
+      (item && item.user && item.user.auth_status !== AUTH_STATUS.AUTHED)
+    ) {
+      next("/login");
+    } else if (
       item &&
+      item.user &&
       item.user.auth_status === AUTH_STATUS.AUTHED &&
       item.user.user_type !== USER_TYPE.ADMIN
     ) {
@@ -227,7 +236,13 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.meta.isUser) {
     if (
+      !item ||
+      (item && item.user && item.user.auth_status !== AUTH_STATUS.AUTHED)
+    ) {
+      next("/login");
+    } else if (
       item &&
+      item.user &&
       item.user.auth_status === AUTH_STATUS.AUTHED &&
       item.user.user_type !== USER_TYPE.USER
     ) {
@@ -238,12 +253,14 @@ router.beforeEach((to, from, next) => {
   } else {
     if (
       item &&
+      item.user &&
       item.user.auth_status === AUTH_STATUS.AUTHED &&
       item.user.user_type === USER_TYPE.ADMIN
     ) {
       next("/user/list");
     } else if (
       item &&
+      item.user &&
       item.user.auth_status === AUTH_STATUS.AUTHED &&
       item.user.user_type === USER_TYPE.USER
     ) {
