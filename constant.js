@@ -1,0 +1,18 @@
+module.exports.USER_TYPE = {
+  ADMIN: 'ADMIN',
+  USER: 'USER',
+}
+
+module.exports.AUTH_STATUS = {
+  NO_AUTH: 'NO_AUTH',
+  AUTHED: 'AUTHED',
+  SUSPENDED: 'SUSPENDED',
+}
+
+module.exports.TOKEN_TYPE = {
+  SIGNUP: 'SIGNUP',
+  AUTH: 'AUTH',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  EMAIL_UPDATE: 'EMAIL_UPDATE',
+}
+  
