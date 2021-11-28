@@ -7,7 +7,6 @@ import { AUTH_STATUS, USER_TYPE } from "../../constant";
 const DefaultContainer = () => import("@/containers/DefaultContainer");
 
 // views
-const Index = () => import("@/views/Index");
 const Page404 = () => import("@/views/Page404");
 // auth
 const Login = () => import("@/views/auth/Login");
@@ -18,12 +17,10 @@ const ResetPassword = () => import("@/views/auth/ResetPassword");
 // user
 const Profile = () => import("@/views/user/Profile");
 const UserCreate = () => import("@/views/user/Create");
-const UserDetail = () => import("@/views/user/Detail");
 const UserEdit = () => import("@/views/user/Edit");
 const UserList = () => import("@/views/user/List");
 // post
 const PostCreate = () => import("@/views/post/Create");
-const PostDetail = () => import("@/views/post/Detail");
 const PostEdit = () => import("@/views/post/Edit");
 const PostList = () => import("@/views/post/List");
 
@@ -67,14 +64,6 @@ export const router = new Router({
               },
             },
             {
-              path: "detail/:user_id",
-              name: "UserDetail",
-              component: UserDetail,
-              meta: {
-                isAdmin: true,
-              },
-            },
-            {
               path: "edit/:user_id",
               name: "UserEdit",
               component: UserEdit,
@@ -111,15 +100,7 @@ export const router = new Router({
               },
             },
             {
-              path: "detail/:post_id",
-              name: "PostDetail",
-              component: PostDetail,
-              meta: {
-                isUser: true,
-              },
-            },
-            {
-              path: "edit/:user_id",
+              path: "edit/:post_id",
               name: "PostEdit",
               component: PostEdit,
               meta: {

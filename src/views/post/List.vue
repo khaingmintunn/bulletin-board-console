@@ -18,10 +18,18 @@
                   <input type="checkbox" />
                 </template>
                 <template v-slot:cell(edit)="data">
-                  <b-button variant="primary"><i class="fa fa-pencil mr-2"></i>Edit</b-button>
+                  <b-button
+                    variant="primary"
+                    @click="gotoEdit(data.item.post_id)"
+                    ><i class="fa fa-pencil mr-2"></i>Edit</b-button
+                  >
                 </template>
                 <template v-slot:cell(delete)="data">
-                  <b-button variant="danger"><i class="fa fa-trash mr-2"></i>Delete</b-button>
+                  <b-button
+                    variant="danger"
+                    @click="showDeleteModal(data.item.post_id)"
+                    ><i class="fa fa-trash mr-2"></i>Delete</b-button
+                  >
                 </template>
               </b-table>
             </div>
@@ -37,6 +45,30 @@
                 hide-goto-end-buttons
               />
             </nav>
+            <div>
+              <b-modal
+                size="sm"
+                class="sm-modal modal-danger"
+                no-close-on-backdrop
+                ref="deleteModalRef"
+                hide-footer
+                title="Are you sure?"
+              >
+                <div class="d-flex justify-content-center mt-4 mb-4">
+                  <b-btn
+                    class="mr-2"
+                    variant="secondary"
+                    @click="hideDeleteModal"
+                    >Cancel</b-btn
+                  >
+                  <b-btn
+                    variant="danger"
+                    @click="deleteSubmit"
+                    >Okay</b-btn
+                  >
+                </div>
+              </b-modal>
+            </div>
           </b-col>
         </b-row>
       </b-col>
@@ -47,6 +79,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import VueNotifications from "vue-notifications";
+import { router } from "../../router";
 
 export default {
   name: "post-list",
@@ -63,6 +96,7 @@ export default {
       ],
       currentPage: 1,
       perPage: 9,
+      selected_post_id: "",
     };
   },
   notifications: {
@@ -100,7 +134,21 @@ export default {
     }),
   },
   methods: {
-    ...mapActions("post", ["getPosts"]),
+    ...mapActions("post", ["getPosts", "deletePost"]),
+    gotoEdit(post_id) {
+      router.push(`/post/edit/${post_id}`);
+    },
+    showDeleteModal(post_id) {
+      this.selected_post_id = post_id;
+      this.$refs.deleteModalRef.show();
+    },
+    hideDeleteModal() {
+      this.$refs.deleteModalRef.hide();
+    },
+    deleteSubmit() {
+      this.deletePost(this.selected_post_id);
+      this.$refs.deleteModalRef.hide();
+    },
   },
 };
 </script>
